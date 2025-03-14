@@ -48,22 +48,12 @@ model User {
     name          String?
     email         String?   @unique
     emailVerified DateTime?
+    password    String
     image         String?
     accounts      Account[]
     sessions      Session[]
-    task          Tasks[]
+    task          Task[]
 }
-model Tasks{
-    id  String  @id @default(cuid())
-    userId String
-    title String
-    descriptions String
-    priority Priority
-    status Status
-    user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-    labels String?
-}
- 
  
 
 model VerificationToken {
@@ -74,16 +64,15 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-enum Priority {
-  high
-  medium 
-  low 
-  
+model Task {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  descriptions String
+  priority    String
+  status      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  labels      String?
 }
-enum Status {
- todo
-    inprogress
-    review
-    completed
-  
-}
+
+
