@@ -35,7 +35,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <Card>
+    <Card className="p-2">
       <CardTitle>Login</CardTitle>
       <CardDescription>Enter your credentials to login.</CardDescription>
       <CardContent>
