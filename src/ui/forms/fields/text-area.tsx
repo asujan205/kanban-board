@@ -1,33 +1,48 @@
-import React from "react";
-import { Controller, useFormContext } from "react-hook-form";
+"use client";
+import { useFormContext } from "react-hook-form";
 import { Textarea } from "~/ui/components/text-area";
-import { cn } from "~/utils/cn";
 
-const InputField = React.forwardRef<
-  HTMLTextAreaElement,
-  React.HTMLAttributes<HTMLTextAreaElement> & {
-    as?: "textarea";
-    name: string;
-  }
->(({ className, as: Component = "input", name, ...props }, ref) => {
-  const { control } = useFormContext();
+interface TextareaProps {
+  name: string;
+  label?: string;
+  placeholder?: string;
+  className?: string;
+  rows?: number;
+}
+
+export const TextareaField = ({
+  name,
+  label,
+  placeholder,
+  className,
+  rows = 4,
+}: TextareaProps) => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+  const error = errors[name]?.message as string | undefined;
+
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field, fieldState: { error } }) => (
-        <div className={cn("flex flex-col space-y-1", className)}>
-          <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-            {name}
-          </label>
-          <Textarea {...field} {...props} ref={ref} />
-          {error?.message && (
-            <div className="text-destructive text-sm">{error.message}</div>
-          )}
-        </div>
+    <div className="form-control w-full">
+      {label && (
+        <label className="label">
+          <span className="label-text">{label}</span>
+        </label>
       )}
-    />
+      <Textarea
+        {...register(name)}
+        placeholder={placeholder}
+        rows={rows}
+        className={`textarea textarea-bordered min-h-[80px] w-full ${
+          error ? "textarea-error" : ""
+        } ${className}`}
+      />
+      {error && (
+        <label className="label">
+          <span className="label-text-alt text-error">{error}</span>
+        </label>
+      )}
+    </div>
   );
-});
-
-export { InputField };
+};

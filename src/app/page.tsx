@@ -1,9 +1,8 @@
 import Link from "next/link";
-
-import { LatestPost } from "~/app/_components/post";
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 import { Badge } from "~/ui/components/badge";
+import { LoginForm } from "./_components/LoginForm";
 
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
@@ -16,7 +15,7 @@ export default async function Home() {
   return (
     <HydrateClient>
       <main className="flex min-h-screen flex-col items-center justify-center">
-        <Badge>help me</Badge>
+        <LoginForm />
       </main>
     </HydrateClient>
   );

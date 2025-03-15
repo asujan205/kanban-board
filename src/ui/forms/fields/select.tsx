@@ -1,22 +1,19 @@
-"use client";
+'use client'
 import { useFormContext } from "react-hook-form";
-import { Input } from "~/ui/components/input";
 
-interface InputProps {
+interface SelectProps {
   name: string;
   label?: string;
-  placeholder?: string;
-  type?: React.HTMLInputTypeAttribute;
+  options: { value: string; label: string }[];
   className?: string;
 }
 
-export const InputField = ({
+export const SelectField = ({
   name,
   label,
-  type = "text",
-  placeholder,
+  options,
   className,
-}: InputProps) => {
+}: SelectProps) => {
   const {
     register,
     formState: { errors },
@@ -30,12 +27,17 @@ export const InputField = ({
           <span className="label-text">{label}</span>
         </label>
       )}
-      <Input
+      <select
         {...register(name)}
-        type={type}
-        placeholder={placeholder}
-        className={`input input-bordered w-full ${error ? "input-error" : ""} ${className}`}
-      />
+        className={`select select-bordered w-full ${error ? "select-error" : ""} ${className}`}
+      >
+        <option value="">Select an option</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       {error && (
         <label className="label">
           <span className="label-text-alt text-error">{error}</span>

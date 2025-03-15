@@ -1,6 +1,5 @@
 import * as z from "zod";
 import {
-  ControllerRenderProps,
   DefaultValues,
   FieldValues,
   FormState,
@@ -24,10 +23,23 @@ export type FieldConfig<SchemaType extends z.infer<z.ZodObject<any, any>>> = {
 };
 export type FormProps<SchemaType extends z.ZodObject<any, any>> = {
   schema: SchemaType;
-  onSubmit: (data: z.infer<SchemaType>) => void;
+  onSubmitProps?: (
+    values: z.infer<SchemaType>,
+    form: UseFormReturn<z.infer<SchemaType>>,
+  ) => void | Promise<void>;
   fieldConfig?: FieldConfig<z.infer<SchemaType>>;
   initValues?: DefaultValues<z.infer<SchemaType>>;
 
-  children: (form: UseFormReturn<FieldValues, any>) => React.ReactNode;
   formState?: FormState<z.infer<SchemaType>>;
+  onValuesChange?: (
+    values: Partial<z.infer<SchemaType>>,
+    form: UseFormReturn<z.infer<SchemaType>>,
+  ) => void;
+  onParsedValuesChange?: (
+    values: Partial<z.infer<SchemaType>>,
+    form: UseFormReturn<z.infer<SchemaType>>,
+  ) => void;
+  className?: string;
+  values?: Partial<z.infer<SchemaType>>;
+  [key: string]: any;
 };
