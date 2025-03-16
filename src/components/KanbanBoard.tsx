@@ -1,111 +1,129 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
-import { KanbanColumn, Task } from '~/types/kanban';
-import { TaskCard } from './TaskCard';
-import { TaskForm } from './TaskForm';
-import { Button } from '~/ui/components/button';
-import { PlusIcon } from '@heroicons/react/24/outline';
+import { useState } from "react";
+import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
+import { KanbanColumn, Task } from "~/types/kanban";
+import { TaskCard } from "./TaskCard";
+import { TaskForm } from "./TaskForm";
+import { Button } from "~/ui/components/button";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 const initialColumns: KanbanColumn[] = [
-  { 
-    id: 'Todo', 
-    title: 'To Do', 
+  {
+    id: "Todo",
+    title: "To Do",
     tasks: [
       {
-        id: '1',
-        title: 'Implement Authentication',
-        description: 'Add user authentication using NextAuth.js',
-        priority: 'High',
-        dueDate: '2024-04-15',
+        id: "1",
+        title: "Implement Authentication",
+        description: "Add user authentication using NextAuth.js",
+        priority: "High",
+        dueDate: "2024-04-15",
         assignees: [
-          { id: '1', name: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=1' }
+          {
+            id: "1",
+            name: "John Doe",
+            avatar: "https://i.pravatar.cc/150?img=1",
+          },
         ],
         tags: [
-          { id: '1', name: 'Feature', color: '#0ea5e9' },
-          { id: '2', name: 'Security', color: '#ef4444' }
+          { id: "1", name: "Feature", color: "#0ea5e9" },
+          { id: "2", name: "Security", color: "#ef4444" },
         ],
-        column: 'Todo'
+        column: "Todo",
       },
       {
-        id: '2',
-        title: 'Design System Setup',
-        description: 'Create reusable components and style guide',
-        priority: 'Medium',
-        dueDate: '2024-04-20',
+        id: "2",
+        title: "Design System Setup",
+        description: "Create reusable components and style guide",
+        priority: "Medium",
+        dueDate: "2024-04-20",
         assignees: [
-          { id: '2', name: 'Jane Smith', avatar: 'https://i.pravatar.cc/150?img=2' }
+          {
+            id: "2",
+            name: "Jane Smith",
+            avatar: "https://i.pravatar.cc/150?img=2",
+          },
         ],
-        tags: [
-          { id: '3', name: 'UI', color: '#8b5cf6' }
-        ],
-        column: 'Todo'
-      }
-    ]
+        tags: [{ id: "3", name: "UI", color: "#8b5cf6" }],
+        column: "Todo",
+      },
+    ],
   },
-  { 
-    id: 'In Progress', 
-    title: 'In Progress', 
+  {
+    id: "In Progress",
+    title: "In Progress",
     tasks: [
       {
-        id: '3',
-        title: 'API Integration',
-        description: 'Connect frontend with backend API endpoints',
-        priority: 'High',
-        dueDate: '2024-04-10',
+        id: "3",
+        title: "API Integration",
+        description: "Connect frontend with backend API endpoints",
+        priority: "High",
+        dueDate: "2024-04-10",
         assignees: [
-          { id: '1', name: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=1' },
-          { id: '3', name: 'Mike Johnson', avatar: 'https://i.pravatar.cc/150?img=3' }
+          {
+            id: "1",
+            name: "John Doe",
+            avatar: "https://i.pravatar.cc/150?img=1",
+          },
+          {
+            id: "3",
+            name: "Mike Johnson",
+            avatar: "https://i.pravatar.cc/150?img=3",
+          },
         ],
         tags: [
-          { id: '4', name: 'Backend', color: '#84cc16' },
-          { id: '5', name: 'Integration', color: '#f59e0b' }
+          { id: "4", name: "Backend", color: "#84cc16" },
+          { id: "5", name: "Integration", color: "#f59e0b" },
         ],
-        column: 'In Progress'
-      }
-    ]
+        column: "In Progress",
+      },
+    ],
   },
-  { 
-    id: 'Review', 
-    title: 'Review', 
+  {
+    id: "Review",
+    title: "Review",
     tasks: [
       {
-        id: '4',
-        title: 'Performance Optimization',
-        description: 'Optimize app performance and loading times',
-        priority: 'Medium',
-        dueDate: '2024-04-12',
+        id: "4",
+        title: "Performance Optimization",
+        description: "Optimize app performance and loading times",
+        priority: "Medium",
+        dueDate: "2024-04-12",
         assignees: [
-          { id: '4', name: 'Sarah Wilson', avatar: 'https://i.pravatar.cc/150?img=4' }
+          {
+            id: "4",
+            name: "Sarah Wilson",
+            avatar: "https://i.pravatar.cc/150?img=4",
+          },
         ],
-        tags: [
-          { id: '6', name: 'Performance', color: '#ec4899' }
-        ],
-        column: 'Review'
-      }
-    ]
+        tags: [{ id: "6", name: "Performance", color: "#ec4899" }],
+        column: "Review",
+      },
+    ],
   },
-  { 
-    id: 'Done', 
-    title: 'Done', 
+  {
+    id: "Done",
+    title: "Done",
     tasks: [
       {
-        id: '5',
-        title: 'Project Setup',
-        description: 'Initialize project and set up development environment',
-        priority: 'Low',
-        dueDate: '2024-04-05',
+        id: "5",
+        title: "Project Setup",
+        description: "Initialize project and set up development environment",
+        priority: "Low",
+        dueDate: "2024-04-05",
         assignees: [
-          { id: '1', name: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=1' }
+          {
+            id: "1",
+            name: "John Doe",
+            avatar: "https://i.pravatar.cc/150?img=1",
+          },
         ],
-        tags: [
-          { id: '7', name: 'Setup', color: '#64748b' }
-        ],
-        column: 'Done'
-      }
-    ]
-  }
+        tags: [{ id: "7", name: "Setup", color: "#64748b" }],
+        column: "Done",
+      },
+    ],
+  },
 ];
 
 export const KanbanBoard = () => {
@@ -113,13 +131,13 @@ export const KanbanBoard = () => {
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
-  const handleCreateTask = (taskData: Omit<Task, 'id'>) => {
+  const handleCreateTask = (taskData: Omit<Task, "id">) => {
     const newTask: Task = {
       ...taskData,
       id: Math.random().toString(36).substr(2, 9),
     };
 
-    const newColumns = columns.map(col => {
+    const newColumns = columns.map((col) => {
       if (col.id === taskData.column) {
         return {
           ...col,
@@ -132,15 +150,13 @@ export const KanbanBoard = () => {
     setColumns(newColumns);
   };
 
-  const handleEditTask = (taskData: Omit<Task, 'id'>) => {
+  const handleEditTask = (taskData: Omit<Task, "id">) => {
     if (!editingTask) return;
 
-    const newColumns = columns.map(col => ({
+    const newColumns = columns.map((col) => ({
       ...col,
-      tasks: col.tasks.map(task =>
-        task.id === editingTask.id
-          ? { ...taskData, id: task.id }
-          : task
+      tasks: col.tasks.map((task) =>
+        task.id === editingTask.id ? { ...taskData, id: task.id } : task,
       ),
     }));
 
@@ -149,9 +165,9 @@ export const KanbanBoard = () => {
   };
 
   const handleDeleteTask = (taskId: string) => {
-    const newColumns = columns.map(col => ({
+    const newColumns = columns.map((col) => ({
       ...col,
-      tasks: col.tasks.filter(task => task.id !== taskId),
+      tasks: col.tasks.filter((task) => task.id !== taskId),
     }));
 
     setColumns(newColumns);
@@ -161,7 +177,7 @@ export const KanbanBoard = () => {
     if (!result.destination) return;
 
     const { source, destination } = result;
-    
+
     if (source.droppableId === destination.droppableId) {
       // Reorder within the same column
       const column = columns.find((col) => col.id === source.droppableId);
@@ -173,26 +189,28 @@ export const KanbanBoard = () => {
       newTasks.splice(destination.index, 0, removed);
 
       const newColumns = columns.map((col) =>
-        col.id === source.droppableId ? { ...col, tasks: newTasks } : col
+        col.id === source.droppableId ? { ...col, tasks: newTasks } : col,
       );
 
       setColumns(newColumns);
     } else {
       // Move between columns
       const sourceColumn = columns.find((col) => col.id === source.droppableId);
-      const destColumn = columns.find((col) => col.id === destination.droppableId);
+      const destColumn = columns.find(
+        (col) => col.id === destination.droppableId,
+      );
       if (!sourceColumn || !destColumn) return;
 
       const sourceTasks = Array.from(sourceColumn.tasks);
       const destTasks = Array.from(destColumn.tasks);
       const [removed] = sourceTasks.splice(source.index, 1);
       if (!removed) return;
-      
+
       const updatedTask: Task = {
         ...removed,
-        column: destination.droppableId as Task['column']
+        column: destination.droppableId as Task["column"],
       };
-      
+
       destTasks.splice(destination.index, 0, updatedTask);
 
       const newColumns = columns.map((col) => {
@@ -211,7 +229,7 @@ export const KanbanBoard = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Tasks</h2>
         <Button
           onClick={() => {
@@ -220,19 +238,19 @@ export const KanbanBoard = () => {
           }}
           className="flex items-center gap-2"
         >
-          <PlusIcon className="w-5 h-5" />
+          <PlusIcon className="h-5 w-5" />
           Add Task
         </Button>
       </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex gap-4 p-4 h-full overflow-x-auto">
+        <div className="flex h-full gap-4 overflow-x-auto p-4">
           {columns.map((column) => (
             <div
               key={column.id}
-              className="flex-shrink-0 w-80 bg-gray-100 rounded-lg p-4"
+              className="w-80 flex-shrink-0 rounded-lg bg-gray-100 p-4"
             >
-              <h2 className="font-bold text-xl mb-4">{column.title}</h2>
+              <h2 className="mb-4 text-xl font-bold">{column.title}</h2>
               <Droppable droppableId={column.id}>
                 {(provided) => (
                   <div
@@ -269,8 +287,8 @@ export const KanbanBoard = () => {
         }}
         onSubmit={editingTask ? handleEditTask : handleCreateTask}
         initialData={editingTask || undefined}
-        mode={editingTask ? 'edit' : 'create'}
+        mode={editingTask ? "edit" : "create"}
       />
     </div>
   );
-}; 
+};

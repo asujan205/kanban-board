@@ -1,6 +1,5 @@
-import { type DefaultSession, type Session } from "next-auth";
-import type { JWT } from "next-auth/jwt";
-import type { NextAuthConfig } from "next-auth";
+import { type DefaultSession } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { db } from "~/server/db";
@@ -14,27 +13,18 @@ declare module "next-auth" {
   }
 }
 
-if (!process.env.NEXTAUTH_SECRET ) {
-  throw new Error("NEXTAUTH_SECRET must be set in environment variables");
-}
-
-export const authOptions: NextAuthConfig = {
-  secret: process.env.NEXTAUTH_SECRET ,
-  callbacks: {
-    session: ({ session, token }: { session: Session; token: JWT }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: token.sub,
-      },
-    }),
-  },
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth({
   providers: [
     CredentialsProvider({
       name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -51,7 +41,7 @@ export const authOptions: NextAuthConfig = {
 
         const isValidPassword = await bcrypt.compare(
           credentials.password as string,
-          user.password,
+          user.password
         );
 
         if (!isValidPassword) {
@@ -61,12 +51,28 @@ export const authOptions: NextAuthConfig = {
         return {
           id: user.id,
           email: user.email,
-          name: user.name,
-          image: user.image,
+          name: user.name || null,
+          image: user.image || null,
         };
       },
     }),
   ],
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (token && session.user) {
+        session.user.id = token.id as string;
+        session.user.email = token.email as string;
+      }
+      return session;
+    },
+  },
   pages: {
     signIn: "/login",
     newUser: "/signup",
@@ -74,4 +80,4 @@ export const authOptions: NextAuthConfig = {
   session: {
     strategy: "jwt",
   },
-};
+}); 

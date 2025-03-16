@@ -2,7 +2,8 @@
 
 import * as z from 'zod';
 import { Task } from '~/types/kanban';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "~/ui/components/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '~/ui/components/dialog';
+
 import { AutoForm } from '~/ui/forms/AutoForm/AutoForm';
 
 interface TaskFormProps {

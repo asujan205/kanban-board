@@ -1,12 +1,23 @@
-import { KanbanBoard } from "~/components/KanbanBoard";
+"use client";
 
-export default function Home() {
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { useLayoutEffect } from "react";
+
+export default function HomePage() {
+  const { status } = useSession();
+
+  useLayoutEffect(() => {
+    if (status === "authenticated") {
+      redirect("/dashboard");
+    } else if (status === "unauthenticated") {
+      redirect("/login");
+    }
+  }, [status]);
+
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="container mx-auto py-8">
-        <h1 className="text-3xl font-bold mb-8">Kanban Board</h1>
-        <KanbanBoard />
-      </div>
-    </main>
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+    </div>
   );
 }
