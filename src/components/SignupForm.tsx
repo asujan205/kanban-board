@@ -18,6 +18,19 @@ const baseSchema = z.object({
   confirmPassword: z.string(),
 });
 
+type SignupFormValues = z.infer<typeof baseSchema>;
+
+type FieldConfigType = {
+  [K in keyof SignupFormValues]: {
+    fieldType: "input";
+    inputProps: {
+      label: string;
+      type: string;
+      placeholder: string;
+    };
+  };
+};
+
 export const SignupForm = () => {
   const router = useRouter();
   const signup = api.auth.signup.useMutation({
@@ -30,9 +43,9 @@ export const SignupForm = () => {
     },
   });
 
-  const fieldConfig = {
+  const fieldConfig: FieldConfigType = {
     email: {
-      fieldType: "input" as const,
+      fieldType: "input",
       inputProps: {
         label: "Email",
         type: "email",
@@ -40,7 +53,7 @@ export const SignupForm = () => {
       },
     },
     password: {
-      fieldType: "input" as const,
+      fieldType: "input",
       inputProps: {
         label: "Password",
         type: "password",
@@ -48,7 +61,7 @@ export const SignupForm = () => {
       },
     },
     confirmPassword: {
-      fieldType: "input" as const,
+      fieldType: "input",
       inputProps: {
         label: "Confirm Password",
         type: "password",
@@ -58,8 +71,8 @@ export const SignupForm = () => {
   };
 
   const handleSubmit = async (
-    values: { [x: string]: any },
-    form: UseFormReturn<any>,
+    values: SignupFormValues,
+    form: UseFormReturn<SignupFormValues>
   ) => {
     if (values.password !== values.confirmPassword) {
       form.setError("confirmPassword", { message: "Passwords don't match" });
@@ -72,7 +85,7 @@ export const SignupForm = () => {
         password: values.password,
       });
     } catch (error) {
-      // Error is handled by the mutation's onError callback
+      toast.error("An error occurred");
     }
   };
 
@@ -80,7 +93,7 @@ export const SignupForm = () => {
     <main className="flex min-h-screen items-center justify-center bg-gray-50">
       <div className="mx-auto w-full max-w-md rounded-lg bg-white p-6 shadow-md">
         <h2 className="mb-6 text-center text-2xl font-bold">Sign Up</h2>
-        <AutoForm
+        <AutoForm<typeof baseSchema>
           schema={baseSchema}
           fieldConfig={fieldConfig}
           onSubmitProps={handleSubmit}

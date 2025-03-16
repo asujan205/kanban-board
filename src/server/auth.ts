@@ -24,7 +24,7 @@ export const {
       name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -41,7 +41,7 @@ export const {
 
         const isValidPassword = await bcrypt.compare(
           credentials.password as string,
-          user.password
+          user.password,
         );
 
         if (!isValidPassword) {
@@ -51,8 +51,8 @@ export const {
         return {
           id: user.id,
           email: user.email,
-          name: user.name || null,
-          image: user.image || null,
+          name: user.name ?? null,
+          image: user.image ?? null,
         };
       },
     }),
@@ -80,4 +80,4 @@ export const {
   session: {
     strategy: "jwt",
   },
-}); 
+});

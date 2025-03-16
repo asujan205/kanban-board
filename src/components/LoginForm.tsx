@@ -53,8 +53,8 @@ export const LoginForm = () => {
       toast.success("Logged in successfully!");
       router.push("/dashboard");
       router.refresh();
-    } catch (error: any) {
-      toast.error(error?.message ?? "An error occurred");
+    } catch (error) {
+      toast.error("An error occurred");
     }
   };
 
@@ -66,11 +66,11 @@ export const LoginForm = () => {
         onSubmitProps={handleSubmit}
       />
       <p className="mt-4 text-center text-sm text-gray-600">
-        Don't have an account?{" "}
+        {`Don't have an account?`}{" "}
         <Link href="/signup" className="text-blue-600 hover:underline">
           Sign up
         </Link>
       </p>
     </>
   );
-}; 
+};

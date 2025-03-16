@@ -286,7 +286,7 @@ export const KanbanBoard = () => {
           setEditingTask(null);
         }}
         onSubmit={editingTask ? handleEditTask : handleCreateTask}
-        initialData={editingTask || undefined}
+        initialData={editingTask ?? undefined}
         mode={editingTask ? "edit" : "create"}
       />
     </div>

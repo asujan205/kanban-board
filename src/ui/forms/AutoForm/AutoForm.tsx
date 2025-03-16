@@ -1,5 +1,4 @@
-
-'use client'
+"use client";
 import * as z from "zod";
 import { FormProps } from "../types/form.types";
 import { FormProvider } from "react-hook-form";
@@ -28,13 +27,14 @@ export const AutoForm = <SchemaType extends z.ZodObject<any, any>>({
     <Form {...form}>
       <form
         onSubmit={(e) => {
-          form.handleSubmit(onSubmit)(e);
+          e.preventDefault();
+          void form.handleSubmit(onSubmit)(e);
         }}
         className="space-y-4"
       >
         {Object.keys(schema?.shape).map((key) => {
           const fieldType: keyof typeof INPUT_COMPONENTS =
-            fieldConfig?.[key]?.fieldType || "input";
+            fieldConfig?.[key]?.fieldType ?? "input";
           const inputProps = fieldConfig?.[key]?.inputProps;
           const InputComponent = INPUT_COMPONENTS[fieldType];
 
@@ -54,14 +54,14 @@ export const AutoForm = <SchemaType extends z.ZodObject<any, any>>({
           }
           return null;
         })}
-        
-        <div className="flex justify-end gap-2 mt-4">
-          <button 
-            type="submit" 
+
+        <div className="mt-4 flex justify-end gap-2">
+          <button
+            type="submit"
             disabled={form.formState.isSubmitting}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark"
+            className="hover:bg-primary-dark rounded-md bg-primary px-4 py-2 text-white"
           >
-            {form.formState.isSubmitting ? 'Submitting...' : 'Submit'}
+            {form.formState.isSubmitting ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>
