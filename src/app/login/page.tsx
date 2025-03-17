@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useLayoutEffect } from "react";
-import { LoginForm } from "~/components/LoginForm";
+import { LoginForm } from "~/app/_components/LoginForm";
 
 export default function LoginPage() {
   const { status } = useSession();

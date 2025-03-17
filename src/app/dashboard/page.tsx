@@ -1,5 +1,5 @@
-import { KanbanBoard } from "~/components/KanbanBoard";
-import { Navbar } from "~/components/Navbar";
+import { KanbanBoard } from "~/app/_components/KanbanBoard";
+import { Navbar } from "~/app/_components/Navbar";
 
 export default function DashboardPage() {
   return (

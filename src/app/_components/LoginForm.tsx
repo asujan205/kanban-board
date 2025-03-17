@@ -1,20 +1,23 @@
 "use client";
 
 import * as z from "zod";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardTitle,
-} from "~/ui/components/card";
 import { AutoForm } from "~/ui/forms/AutoForm/AutoForm";
+import { api } from "~/trpc/react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(1, "Password is required"),
 });
 
+type LoginFormType = z.infer<typeof loginSchema>;
+
 export const LoginForm = () => {
+  const router = useRouter();
+
   const fieldConfig = {
     email: {
       fieldType: "input" as const,
@@ -34,20 +37,40 @@ export const LoginForm = () => {
     },
   };
 
+  const handleSubmit = async (values: LoginFormType) => {
+    try {
+      const result = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        toast.error(result.error);
+        return;
+      }
+
+      toast.success("Logged in successfully!");
+      router.push("/dashboard");
+      router.refresh();
+    } catch (error) {
+      toast.error("An error occurred");
+    }
+  };
+
   return (
-    <Card className="p-2">
-      <CardTitle>Login</CardTitle>
-      <CardDescription>Enter your credentials to login.</CardDescription>
-      <CardContent>
-        <AutoForm
-          schema={loginSchema}
-          fieldConfig={fieldConfig}
-          onSubmitProps={(data) => {
-            console.log("Login data:", data);
-            // Handle login logic here
-          }}
-        />
-      </CardContent>
-    </Card>
+    <>
+      <AutoForm
+        schema={loginSchema}
+        fieldConfig={fieldConfig}
+        onSubmitProps={handleSubmit}
+      />
+      <p className="mt-4 text-center text-sm text-gray-600">
+        {`Don't have an account?`}{" "}
+        <Link href="/signup" className="text-blue-600 hover:underline">
+          Sign up
+        </Link>
+      </p>
+    </>
   );
 };

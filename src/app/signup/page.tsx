@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useLayoutEffect } from "react";
 
-import { SignupForm } from "~/components/SignupForm";
+import { SignupForm } from "~/app/_components/SignupForm";
 
 export default function SignupPage() {
   const { status } = useSession();
