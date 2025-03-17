@@ -23,8 +23,8 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-50">
-      <div className="mx-auto w-full max-w-md rounded-lg bg-white p-6 shadow-md">
+    <main className="flex min-h-screen items-center justify-center bg-card/20">
+      <div className="mx-auto w-full max-w-md rounded-lg bg-card p-6 shadow-md">
         <h2 className="mb-6 text-center text-2xl font-bold">Login</h2>
         <LoginForm />
       </div>

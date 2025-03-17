@@ -72,7 +72,7 @@ export const SignupForm = () => {
 
   const handleSubmit = async (
     values: SignupFormValues,
-    form: UseFormReturn<SignupFormValues>
+    form: UseFormReturn<SignupFormValues>,
   ) => {
     if (values.password !== values.confirmPassword) {
       form.setError("confirmPassword", { message: "Passwords don't match" });
@@ -90,8 +90,8 @@ export const SignupForm = () => {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-50">
-      <div className="mx-auto w-full max-w-md rounded-lg bg-white p-6 shadow-md">
+    <main className="flex min-h-screen items-center justify-center bg-card/50">
+      <div className="mx-auto w-full max-w-md rounded-lg bg-card p-6 shadow-md">
         <h2 className="mb-6 text-center text-2xl font-bold">Sign Up</h2>
         <AutoForm<typeof baseSchema>
           schema={baseSchema}
