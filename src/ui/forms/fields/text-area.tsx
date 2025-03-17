@@ -40,7 +40,7 @@ export const TextareaField = ({
       />
       {error && (
         <label className="label">
-          <span className="label-text-alt text-error">{error}</span>
+          <span className="label-text-alt text-destructive">{error}</span>
         </label>
       )}
     </div>

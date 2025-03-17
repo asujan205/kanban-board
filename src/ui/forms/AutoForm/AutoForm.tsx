@@ -59,7 +59,7 @@ export const AutoForm = <SchemaType extends z.ZodObject<any, any>>({
           <button
             type="submit"
             disabled={form.formState.isSubmitting}
-            className="hover:bg-primary-dark rounded-md bg-primary px-4 py-2 text-white"
+            className="hover:bg-primary-dark rounded-md bg-primary px-4 py-2 text-card"
           >
             {form.formState.isSubmitting ? "Submitting..." : "Submit"}
           </button>

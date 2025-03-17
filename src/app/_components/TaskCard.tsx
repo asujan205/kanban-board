@@ -23,7 +23,10 @@ interface TaskCardProps {
 }
 
 export const TaskCard = ({ task, index, onEdit, onDelete }: TaskCardProps) => {
-  const priorityVariants: Record<Task["priority"], "secondary" | "default" | "destructive"> = {
+  const priorityVariants: Record<
+    Task["priority"],
+    "secondary" | "default" | "destructive"
+  > = {
     Low: "secondary",
     Medium: "default",
     High: "destructive",
@@ -60,7 +63,7 @@ export const TaskCard = ({ task, index, onEdit, onDelete }: TaskCardProps) => {
                     onDelete();
                   }}
                 >
-                  <TrashIcon className="h-4 w-4 text-red-500" />
+                  <TrashIcon className="h-4 w-4 text-destructive" />
                 </Button>
               </div>
             </div>
@@ -99,7 +102,7 @@ export const TaskCard = ({ task, index, onEdit, onDelete }: TaskCardProps) => {
               {task.assignees.map((user) => (
                 <div
                   key={user.id}
-                  className="h-8 w-8 overflow-hidden rounded-full border-2 border-white"
+                  className="h-8 w-8 overflow-hidden rounded-full border-2 border-card"
                   title={user.name}
                 >
                   {user.avatar ? (
@@ -109,7 +112,7 @@ export const TaskCard = ({ task, index, onEdit, onDelete }: TaskCardProps) => {
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-gray-300 text-gray-600">
+                    <div className="flex h-full w-full items-center justify-center bg-card/20 text-foreground">
                       {user.name.charAt(0)}
                     </div>
                   )}

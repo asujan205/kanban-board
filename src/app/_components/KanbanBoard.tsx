@@ -248,7 +248,7 @@ export const KanbanBoard = () => {
           {columns.map((column) => (
             <div
               key={column.id}
-              className="w-80 flex-shrink-0 rounded-lg bg-gray-100 p-4"
+              className="w-80 flex-shrink-0 rounded-lg bg-secondary p-4"
             >
               <h2 className="mb-4 text-xl font-bold">{column.title}</h2>
               <Droppable droppableId={column.id}>

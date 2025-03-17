@@ -26,6 +26,14 @@ const taskSchema = z.object({
   dueDate: z.string(),
   column: z.enum(["Todo", "In Progress", "Review", "Done"]),
 });
+const assignees = [
+  {
+    id: "1",
+    name: "John Doe",
+    avatar: "https://i.pravatar.cc/150?img=1",
+  },
+];
+const tags = [{ id: "7", name: "Setup", color: "#64748b" }];
 
 export const TaskForm = ({
   isOpen,
@@ -76,12 +84,12 @@ export const TaskForm = ({
   };
 
   const handleSubmit = (data: z.infer<typeof taskSchema>) => {
-    // Add default empty arrays for assignees and tags since they're not in the form
     onSubmit({
       ...data,
-      assignees: initialData?.assignees ?? [],
-      tags: initialData?.tags ?? [],
+      assignees: assignees ?? [],
+      tags: tags ?? [],
     });
+    onClose();
   };
 
   return (

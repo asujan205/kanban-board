@@ -38,7 +38,7 @@ export const InputField = ({
       />
       {error && (
         <label className="label">
-          <span className="label-text-alt text-red-500">{error}</span>
+          <span className="label-text-alt text-destructive">{error}</span>
         </label>
       )}
     </div>
