@@ -241,7 +241,7 @@ export const KanbanBoard = () => {
             setEditingTask(null);
             setIsTaskFormOpen(true);
           }}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 bg-info hover:bg-info/75"
         >
           <PlusIcon className="h-5 w-5" />
           Add Task
@@ -253,7 +253,9 @@ export const KanbanBoard = () => {
           {columns.map((column) => (
             <div
               key={column.id}
-              className={cn(`w-80 flex-shrink-0 rounded-lg bg-secondary p-4`)}
+              className={cn(
+                `w-80 flex-shrink-0 rounded-lg border border-border p-4`,
+              )}
             >
               <div className="mb-4 flex items-center gap-2">
                 <h2 className="text-xl font-bold">
@@ -264,7 +266,7 @@ export const KanbanBoard = () => {
                   {column.title}
                 </h2>
 
-                <div className="flex h-5 w-5 justify-center rounded-full bg-card">
+                <div className="flex h-5 w-5 justify-center rounded-full bg-secondary">
                   {column?.tasks?.length}
                 </div>
               </div>
