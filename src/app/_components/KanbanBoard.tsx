@@ -255,13 +255,19 @@ export const KanbanBoard = () => {
               key={column.id}
               className={cn(`w-80 flex-shrink-0 rounded-lg bg-secondary p-4`)}
             >
-              <h2 className="mb-4 text-xl font-bold">
-                <span
-                  className="mr-2 inline-block h-2 w-2 rounded-full"
-                  style={{ backgroundColor: column.color }}
-                ></span>
-                {column.title}
-              </h2>
+              <div className="mb-4 flex items-center gap-2">
+                <h2 className="text-xl font-bold">
+                  <span
+                    className="mr-2 inline-block h-2 w-2 rounded-full"
+                    style={{ backgroundColor: column.color }}
+                  ></span>
+                  {column.title}
+                </h2>
+
+                <div className="flex h-5 w-5 justify-center rounded-full bg-card">
+                  {column?.tasks?.length}
+                </div>
+              </div>
               <Droppable droppableId={column.id}>
                 {(provided) => (
                   <div
