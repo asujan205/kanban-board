@@ -1,6 +1,6 @@
-export type Priority = 'Low' | 'Medium' | 'High';
+export type Priority = "Low" | "Medium" | "High";
 
-export type Column = 'Todo' | 'In Progress' | 'Review' | 'Done';
+export type Column = "Todo" | "In Progress" | "Review" | "Done";
 
 export interface User {
   id: string;
@@ -29,4 +29,5 @@ export interface KanbanColumn {
   id: Column;
   title: string;
   tasks: Task[];
-} 
+  color?: string;
+}

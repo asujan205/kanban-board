@@ -7,6 +7,7 @@ import { TaskCard } from "./TaskCard";
 import { TaskForm } from "./TaskForm";
 import { Button } from "~/ui/components/button";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import { cn } from "~/utils/cn";
 
 const initialColumns: KanbanColumn[] = [
   {
@@ -49,6 +50,7 @@ const initialColumns: KanbanColumn[] = [
         column: "Todo",
       },
     ],
+    color: "#f59e0b",
   },
   {
     id: "In Progress",
@@ -79,6 +81,7 @@ const initialColumns: KanbanColumn[] = [
         column: "In Progress",
       },
     ],
+    color: "#3b82f6",
   },
   {
     id: "Review",
@@ -101,6 +104,7 @@ const initialColumns: KanbanColumn[] = [
         column: "Review",
       },
     ],
+    color: "#f43f5e",
   },
   {
     id: "Done",
@@ -123,6 +127,7 @@ const initialColumns: KanbanColumn[] = [
         column: "Done",
       },
     ],
+    color: "#10b981",
   },
 ];
 
@@ -248,9 +253,15 @@ export const KanbanBoard = () => {
           {columns.map((column) => (
             <div
               key={column.id}
-              className="w-80 flex-shrink-0 rounded-lg bg-secondary p-4"
+              className={cn(`w-80 flex-shrink-0 rounded-lg bg-secondary p-4`)}
             >
-              <h2 className="mb-4 text-xl font-bold">{column.title}</h2>
+              <h2 className="mb-4 text-xl font-bold">
+                <span
+                  className="mr-2 inline-block h-2 w-2 rounded-full"
+                  style={{ backgroundColor: column.color }}
+                ></span>
+                {column.title}
+              </h2>
               <Droppable droppableId={column.id}>
                 {(provided) => (
                   <div

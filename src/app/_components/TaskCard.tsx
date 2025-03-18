@@ -42,8 +42,20 @@ export const TaskCard = ({ task, index, onEdit, onDelete }: TaskCardProps) => {
           className="group mb-3 cursor-pointer transition-shadow hover:shadow-md"
         >
           <CardHeader className="pb-2">
-            <div className="flex items-start justify-between">
-              <CardTitle className="text-lg">{task.title}</CardTitle>
+            <div className="flex items-start gap-2">
+              {task.tags.map((tag) => (
+                <Badge
+                  key={tag.id}
+                  variant="outline"
+                  style={{
+                    backgroundColor: tag.color + "20",
+                    color: tag.color,
+                    borderColor: tag.color + "40",
+                  }}
+                >
+                  {tag.name}
+                </Badge>
+              ))}
               <div className="flex gap-2 opacity-0 transition-opacity group-hover:opacity-100">
                 <Button
                   variant="ghost"
@@ -67,26 +79,12 @@ export const TaskCard = ({ task, index, onEdit, onDelete }: TaskCardProps) => {
                 </Button>
               </div>
             </div>
+
+            <CardTitle>{task.title}</CardTitle>
             <CardDescription>{task.description}</CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-4 pb-2">
-            <div className="flex flex-wrap gap-2">
-              {task.tags.map((tag) => (
-                <Badge
-                  key={tag.id}
-                  variant="outline"
-                  style={{
-                    backgroundColor: tag.color + "20",
-                    color: tag.color,
-                    borderColor: tag.color + "40",
-                  }}
-                >
-                  {tag.name}
-                </Badge>
-              ))}
-            </div>
-
             <div className="flex items-center justify-between">
               <Badge variant={priorityVariants[task.priority]}>
                 {task.priority}
