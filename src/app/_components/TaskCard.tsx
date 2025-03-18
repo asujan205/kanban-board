@@ -69,6 +69,9 @@ export const TaskCard = ({ task, index, onEdit, onDelete }: TaskCardProps) => {
                       variant="ghost"
                       size="icon"
                       className="h-8 w-8 rounded-full hover:bg-accent"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
                     >
                       <EllipsisVertical className="h-4 w-4" />
                     </Button>
