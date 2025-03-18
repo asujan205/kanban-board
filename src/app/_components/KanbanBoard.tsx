@@ -324,6 +324,7 @@ export const KanbanBoard = () => {
         onClose={() => setDetailViewOpen(false)}
         onSave={() => handleEditTask}
         onDelete={() => handleDeleteTask(selectedTask?.id)}
+        setEditingTask={setEditingTask}
       />
     </div>
   );

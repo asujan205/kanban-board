@@ -28,6 +28,7 @@ interface TaskDetailViewProps {
   onClose: () => void;
   onSave: (updatedTask: Task) => void;
   onDelete: () => void;
+  setEditingTask: (data: any) => void;
 }
 
 export const TaskDetailView = ({
@@ -36,6 +37,7 @@ export const TaskDetailView = ({
   onClose,
   onSave,
   onDelete,
+  setEditingTask,
 }: TaskDetailViewProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -84,16 +86,19 @@ export const TaskDetailView = ({
               <DialogTitle className="text-2xl font-bold text-gray-900">
                 {task.title}
               </DialogTitle>
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <Button
-                  onClick={() => setIsEditing(true)}
+                  onClick={() => {
+                    setEditingTask(task);
+                    setIsEditing(true);
+                  }}
                   variant="outline"
                   size="sm"
                   className="hover:bg-gray-100"
                 >
                   Edit
                 </Button>
-              </div>
+              </div> */}
             </div>
           </DialogHeader>
 
@@ -230,7 +235,10 @@ export const TaskDetailView = ({
       {/* Edit Task Form Dialog */}
       <TaskForm
         isOpen={isEditing}
-        onClose={() => setIsEditing(false)}
+        onClose={() => {
+          setIsEditing(false);
+          setEditingTask(null);
+        }}
         onSubmit={handleSubmit}
         initialData={{
           ...task,
