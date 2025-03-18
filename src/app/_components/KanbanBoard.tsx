@@ -8,6 +8,7 @@ import { TaskForm } from "./TaskForm";
 import { Button } from "~/ui/components/button";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { cn } from "~/utils/cn";
+import { TaskDetailView } from "./KanbandDeatils";
 
 const initialColumns: KanbanColumn[] = [
   {
@@ -135,6 +136,12 @@ export const KanbanBoard = () => {
   const [columns, setColumns] = useState<KanbanColumn[]>(initialColumns);
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [detailViewOpen, setDetailViewOpen] = useState(false);
+  const handleTaskClick = (task: Task) => {
+    setSelectedTask(task);
+    setDetailViewOpen(true);
+  };
 
   const handleCreateTask = (taskData: Omit<Task, "id">) => {
     const newTask: Task = {
@@ -169,7 +176,7 @@ export const KanbanBoard = () => {
     setEditingTask(null);
   };
 
-  const handleDeleteTask = (taskId: string) => {
+  const handleDeleteTask = (taskId?: string) => {
     const newColumns = columns.map((col) => ({
       ...col,
       tasks: col.tasks.filter((task) => task.id !== taskId),
@@ -278,16 +285,18 @@ export const KanbanBoard = () => {
                     className="min-h-[200px]"
                   >
                     {column.tasks.map((task, index) => (
-                      <TaskCard
-                        key={task.id}
-                        task={task}
-                        index={index}
-                        onEdit={() => {
-                          setEditingTask(task);
-                          setIsTaskFormOpen(true);
-                        }}
-                        onDelete={() => handleDeleteTask(task.id)}
-                      />
+                      <div key={task.id} onClick={() => handleTaskClick(task)}>
+                        <TaskCard
+                          key={task.id}
+                          task={task}
+                          index={index}
+                          onEdit={() => {
+                            setEditingTask(task);
+                            setIsTaskFormOpen(true);
+                          }}
+                          onDelete={() => handleDeleteTask(task.id)}
+                        />
+                      </div>
                     ))}
                     {provided.placeholder}
                   </div>
@@ -307,6 +316,14 @@ export const KanbanBoard = () => {
         onSubmit={editingTask ? handleEditTask : handleCreateTask}
         initialData={editingTask ?? undefined}
         mode={editingTask ? "edit" : "create"}
+      />
+
+      <TaskDetailView
+        task={selectedTask}
+        open={detailViewOpen}
+        onClose={() => setDetailViewOpen(false)}
+        onSave={() => handleEditTask}
+        onDelete={() => handleDeleteTask(selectedTask?.id)}
       />
     </div>
   );
